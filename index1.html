@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Message For Soumi ❤️</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffe0ec, #e8d9ff);
+  font-family: 'Trebuchet MS', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: #713b68;
+}
+
+.card {
+  background: rgba(255,255,255,0.9);
+  max-width: 390px;
+  width: 100%;
+  padding: 25px;
+  border-radius: 28px;
+  text-align: center;
+  box-shadow: 0 10px 35px #b88ba866;
+}
+
+h1 {
+  color: #e45d9c;
+}
+
+.photo {
+  width: 190px;
+  height: 190px;
+  border-radius: 25px;
+  object-fit: cover;
+  border: 5px solid #ffc4dd;
+  box-shadow: 0 5px 15px #e9a2c5;
+}
+
+#message {
+  min-height: 65px;
+  font-size: 19px;
+  font-weight: bold;
+  margin: 22px 0;
+  line-height: 1.5;
+}
+
+button {
+  background: #f477ad;
+  color: white;
+  border: none;
+  padding: 13px 28px;
+  border-radius: 30px;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #df5593;
+}
+
+#footer {
+  display: none;
+  margin-top: 20px;
+  font-weight: bold;
+  color: #e45d9c;
+  font-size: 18px;
+}
+
+.heart {
+  position: fixed;
+  pointer-events: none;
+  animation: float 4s linear forwards;
+  font-size: 22px;
+}
+
+@keyframes float {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Hello Madam! 🎀</h1>
+
+  <img src="soumi.jpg" class="photo"
+       alt="Soumi's photo">
+
+  <div id="message">
+    Someone has a little message for you! 💗
+  </div>
+
+  <button id="startBtn" onclick="startMessage()">
+    Tap to Listen 💌
+  </button>
+
+  <div id="footer">
+    Made with love by Shreosi ❤️
+  </div>
+</div>
+
+<script>
+const messages = [
+  "Hello madam!",
+  "Are you okay?",
+  "Do you forget me?",
+  "By the way, you are too cute!",
+  "Porte bosssss!",
+  "Tataaa!"
+];
+
+let index = 0;
+let running = false;
+
+function speak(text) {
+  return new Promise(resolve => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en-IN";
+    utterance.rate = 0.9;
+    utterance.pitch = 1.15;
+
+    utterance.onend = resolve;
+    utterance.onerror = resolve;
+
+    speechSynthesis.speak(utterance);
+  });
+}
+
+async function startMessage() {
+  if (running) return;
+
+  running = true;
+  document.getElementById("startBtn").disabled = true;
+  document.getElementById("startBtn").innerText =
+    "Playing... 💗";
+
+  for (let i = 0; i < messages.length; i++) {
+    document.getElementById("message").innerText =
+      messages[i];
+
+    await speak(messages[i]);
+    await new Promise(resolve =>
+      setTimeout(resolve, 500)
+    );
+  }
+
+  document.getElementById("message").innerText =
+    "That's all for today, madam! 🥰";
+
+  document.getElementById("footer").style.display =
+    "block";
+
+  document.getElementById("startBtn").innerText =
+    "Play Again 💕";
+
+  document.getElementById("startBtn").disabled = false;
+  running = false;
+  index = 0;
+}
+
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = "💗";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.bottom = "0";
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 4000);
+}
+
+setInterval(createHeart, 900);
+</script>
+
+</body>
+</html>
